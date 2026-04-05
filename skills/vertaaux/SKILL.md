@@ -1,110 +1,105 @@
 ---
-name: VertaaUX
-description: >
-  Best practices for VertaaUX — the automated UX, accessibility, and conversion audit platform.
-  First-party skill from the VertaaUX team covering all 8 distribution surfaces (CLI, SDK, API,
-  MCP Server, GitHub Action, Web UI, Chrome Extension, VS Code Extension) and all 7 audit
-  categories (accessibility, usability, clarity, conversion, IA, semantic, keyboard).
-  Use when: "run audit", "UX audit", "accessibility audit", "conversion audit", "WCAG audit",
-  "set up CI/CD", "configure vertaaux", "vertaaux CLI", "vertaaux SDK", "vertaaux API",
-  "vertaaux MCP", "audit pipeline", "score threshold", "baseline regression", "WCAG compliance",
-  "fix UX issues", "monitor site quality", "compare audits", "triage findings", "fix plan",
-  "policy as code", "audit in CI", "PR comment with scores", "vertaaux GitHub Action",
-  "vertaaux best practices", "@vertaaux/cli", "@vertaaux/sdk", "npx vertaaux",
-  "automated UX testing", "accessibility gate", "quality gate".
-  Do NOT use for: internal codebase development (use architecture-review), visual design of the
-  VertaaUX product itself (use neon-design-system), writing analyzers (use create-analyzer).
+name: vertaaux
+description: Run and operationalize VertaaUX UX, accessibility, and conversion audits across CLI, CI/CD, SDK, API, and MCP. Use when the user needs to audit a URL, investigate WCAG issues, set quality gates, compare audit runs, or generate remediation plans from VertaaUX results.
+license: MIT
+metadata:
+  author: vertaaux
+  version: "1.2.0"
 ---
 
-# VertaaUX Best Practices
+# VertaaUX
 
-**Run automated UX, accessibility, and conversion audits from CLI, CI/CD, SDK, or AI agents. Score 7 categories, gate PRs on quality, and fix issues with AI-powered remediation.**
+Use VertaaUX to audit live experiences, explain findings, and turn results into CI gates or fix plans.
 
-## Which Surface?
+## When to Use
+
+- Run a full UX audit for a live URL
+- Run or interpret accessibility and WCAG-focused scans
+- Set up VertaaUX in CI/CD or PR quality gates
+- Compare audit runs, baselines, or regressions
+- Generate triage, fix plans, or patch reviews from audit output
+- Integrate VertaaUX through the SDK, API, or MCP server
+
+## Fast Path
 
 | Goal | Surface | Command |
 |------|---------|---------|
-| One-off audit | **CLI** | `vertaa audit <url> --wait` |
-| Accessibility scan | **CLI** | `vertaa a11y <url> --mode deep` |
-| Gate PRs | **GitHub Action** | See [CI/CD setup](references/cicd-setup.md) |
-| Programmatic audits | **JS/Python SDK** | See [SDK & API](references/sdk-api.md) |
-| AI agent integration | **MCP Server** | See [SDK & API](references/sdk-api.md#mcp-server) |
+| Full audit | CLI | `vertaa audit <url> --wait` |
+| Accessibility scan | CLI | `vertaa a11y <url> --mode deep` |
+| PR or CI gate | GitHub Action / CI | See [CI/CD setup](references/cicd-setup.md) |
+| Programmatic workflow | JS or Python SDK | See [SDK & API](references/sdk-api.md) |
+| Agent integration | MCP Server | See [SDK & API](references/sdk-api.md#mcp-server) |
 
-## Audit Categories & Weights
-
-| Category | Weight | Measures |
-|----------|--------|----------|
-| **accessibility** | 20% | WCAG 2.2, color contrast, ARIA, form labels, tab order |
-| **conversion** | 20% | CTA placement, funnel gaps, trust indicators, friction |
-| **usability** | 20% | Nielsen heuristics, cognitive load, responsiveness |
-| **clarity** | 15% | Value proposition, scannability, visual hierarchy |
-| **ia** | 10% | Navigation complexity, link clustering, breadcrumbs |
-| **semantic** | 8% | HTML landmarks, heading hierarchy, structured data |
-| **keyboard** | 7% | Focus order, keyboard traps, skip links |
-
-**Tier gating:** Free nulls `conversion`, `semantic`, `keyboard`. Pro unlocks all.
-
-**Issue severities:** `error` > `warning` > `info`
-
-**A11y impact levels:** `critical` > `serious` > `moderate` > `minor`
-
-**Fixability:** `mechanical` | `contextual` | `visual`
-
-## Quick Start
+## Quick Example
 
 ```bash
-# Authenticate
-vertaa login                # or: export VERTAAUX_API_KEY=vtx_...
+# Authenticate once
+vertaa login
 
-# Run audit
-vertaa audit https://example.com --wait
-vertaa audit https://example.com --mode deep --wait --format json
-
-# Accessibility-only
-vertaa a11y https://example.com --mode deep --format md
-
-# Analyze
-vertaa audit https://example.com --json | vertaa explain
-vertaa audit https://example.com --json | vertaa triage
-vertaa audit https://example.com --json | vertaa fix-plan
-
-# Fix
-vertaa fix <job-id>
-vertaa fix-all <job-id>
-
-# CI gate
-vertaa audit https://example.com --threshold 80 --fail-on error
+# Run an audit and inspect the result
+vertaa audit https://example.com --wait --format json > audit.json
+cat audit.json | vertaa explain
+cat audit.json | vertaa triage
 ```
 
-## Exit Codes
+## Recommended Workflow
 
-| Code | Meaning |
-|------|---------|
-| `0` | Success |
-| `1` | Issues at/above `--fail-on` severity |
-| `2` | Error (invalid input, network) |
-| `3` | Score below `--threshold` |
+1. Pick the lightest surface that fits the task.
+   Use the CLI for one-off audits, CI for gates, and SDK/API or MCP only when the workflow needs automation.
+2. Authenticate before deeper work.
+   Use `vertaa login` or set `VERTAAUX_API_KEY` before running commands that need cloud access.
+3. Run the smallest audit that answers the question.
+   Start with `vertaa audit <url> --wait` for broad UX checks or `vertaa a11y <url> --mode deep` for accessibility-specific work.
+4. Convert results into action.
+   Pipe results into `vertaa explain`, `vertaa triage`, `vertaa fix-plan`, `vertaa compare`, or `vertaa patch-review` depending on whether the user needs diagnosis, prioritization, or remediation.
+5. Load deeper references only when the task actually needs them.
+   Use the matching reference below instead of inlining every edge case into the main skill.
 
-## AI Commands
+## Audit Model
 
-All accept stdin pipe, `--file`, or `--job`. See [CLI Workflows](references/cli-workflows.md) for full details.
+| Category | Weight | Focus |
+|----------|--------|-------|
+| `accessibility` | 20% | WCAG 2.2, ARIA, contrast, labels, focus |
+| `conversion` | 20% | CTA strength, funnel gaps, trust, friction |
+| `usability` | 20% | Heuristics, responsiveness, cognitive load |
+| `clarity` | 15% | Messaging, hierarchy, scannability |
+| `ia` | 10% | Navigation, grouping, findability |
+| `semantic` | 8% | Landmarks, headings, structured markup |
+| `keyboard` | 7% | Focus order, traps, skip links |
+
+Notes:
+
+- Free tier nulls `conversion`, `semantic`, and `keyboard`; Pro unlocks all categories.
+- Findings are ordered by severity: `error`, `warning`, `info`.
+- Accessibility impact levels are `critical`, `serious`, `moderate`, `minor`.
+- Severity and accessibility impact are different fields. Commands such as `--fail-on error` use severity, while `fail-on-critical` style CI options refer to accessibility impact.
+- Fixability values are `mechanical`, `contextual`, and `visual`.
+
+## AI Follow-up Commands
+
+All of these accept stdin, `--file`, or `--job`. See [CLI Workflows](references/cli-workflows.md) for complete usage.
 
 | Command | Purpose |
 |---------|---------|
 | `suggest <intent>` | Natural language to CLI command |
-| `explain` | AI summary or evidence for a finding |
-| `triage` | P0/P1/P2 buckets with effort estimates |
-| `fix-plan` | Ordered remediation steps |
-| `patch-review` | Diff safety review (SAFE/UNSAFE/NEEDS_REVIEW) |
-| `release-notes` | Dev + PM notes from audit diff |
-| `compare` | Before/after narrative with deltas |
-| `doc` | Team playbook from recurring findings |
+| `explain` | Explain findings or surface evidence |
+| `triage` | Bucket work into priorities with effort |
+| `fix-plan` | Build an ordered remediation plan |
+| `patch-review` | Review a diff against audit findings |
+| `compare` | Describe before/after deltas |
+| `release-notes` | Turn audit diffs into dev or PM notes |
+| `doc` | Build a repeatable team playbook |
+
+Comparison notes:
+
+- Use `vertaa compare --before <file> --after <file>` for saved audit outputs.
+- Use `vertaa compare <url-a> <url-b>` when comparing live URLs directly.
 
 ## References
 
-Load these as needed for deeper guidance:
+Load only the reference that matches the active task:
 
-- **[CLI Workflows](references/cli-workflows.md)** — Full command reference, piping patterns, output formats, advanced options
-- **[CI/CD Setup](references/cicd-setup.md)** — GitHub Actions, GitLab CI, policy-as-code, baselines, regression detection
-- **[SDK & API](references/sdk-api.md)** — JS/Python SDK, REST API, webhooks, MCP server
-- **[Use Case Playbooks](references/use-cases.md)** — 10 step-by-step workflows: accessibility, UX, conversion, competitive, monitoring
+- [CLI Workflows](references/cli-workflows.md) for command syntax, formats, piping, and advanced options
+- [CI/CD Setup](references/cicd-setup.md) for GitHub Actions, baselines, thresholds, and regression gates
+- [SDK & API](references/sdk-api.md) for JS/Python SDK usage, REST API calls, webhooks, and MCP setup
+- [Use Case Playbooks](references/use-cases.md) for step-by-step workflows such as accessibility audits, monitoring, competitive analysis, and remediation

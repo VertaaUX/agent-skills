@@ -21,6 +21,11 @@ Step-by-step guides for common VertaaUX workflows. Each playbook is self-contain
 
 **Goal:** Find and fix WCAG violations before they reach users.
 
+Severity note:
+- General issue severity uses `error`, `warning`, `info`.
+- Accessibility findings also carry impact levels `critical`, `serious`, `moderate`, `minor`.
+- In the examples below, "critical findings" means accessibility-impact `critical`, not a separate top-level severity enum.
+
 ### Quick scan (< 30s)
 
 ```bash
@@ -36,7 +41,7 @@ vertaa a11y https://example.com --mode deep --format md > a11y-report.md
 # Filter to only serious+ issues
 vertaa a11y https://example.com --mode deep --min-impact serious
 
-# CI gate: fail if accessibility score < 85 or > 3 critical findings
+# CI gate: fail if accessibility score < 85 or > 3 accessibility-impact critical findings
 vertaa a11y https://example.com --mode deep \
   --fail-on-score 85 \
   --fail-on-findings 3
@@ -223,6 +228,8 @@ await client.createAudit({
 **Goal:** Block PRs that degrade UX quality.
 
 ### GitHub Actions (recommended)
+
+`fail-on-critical` below refers to accessibility-impact `critical`, not the general issue severity field.
 
 ```yaml
 name: UX Quality Gate

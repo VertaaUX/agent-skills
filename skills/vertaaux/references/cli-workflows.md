@@ -174,6 +174,13 @@ gh pr diff 123 | vertaa patch-review --job <audit-job-id>
 | 2 | Error | Invalid input, validation errors, network |
 | 3 | Threshold breach | Score below `--threshold` value |
 
+## Severity vs Accessibility Impact
+
+- General issue severity uses `error`, `warning`, `info`.
+- Accessibility findings may also include impact levels `critical`, `serious`, `moderate`, `minor`.
+- Use `--fail-on error` for severity-based CI gates.
+- Use accessibility-specific options such as `--fail-on-findings` and CI-level `fail-on-critical` settings for impact-based gating.
+
 ## CI Gating Flags
 
 ```bash
@@ -188,6 +195,16 @@ vertaa audit https://example.com --threshold 80 --fail-on error
 
 # A11y specific
 vertaa a11y https://example.com --fail-on-score 80 --fail-on-findings 5
+```
+
+## Comparison Modes
+
+```bash
+# Compare two saved audit outputs
+vertaa compare --before baseline.json --after current.json
+
+# Compare two live URLs directly
+vertaa compare https://site-a.com https://site-b.com
 ```
 
 ## Advanced Audit Options
