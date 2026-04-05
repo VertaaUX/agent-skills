@@ -2,6 +2,15 @@
 
 Integrate VertaaUX into CI pipelines for automated quality gating.
 
+## Severity vs Accessibility Impact
+
+VertaaUX exposes two related but different dimensions:
+
+- `severity`: `error`, `warning`, `info`
+- accessibility `impact`: `critical`, `serious`, `moderate`, `minor`
+
+Use `--fail-on error` style flags for general issue severity. Use `fail-on-critical` and `critical-count` style CI settings only for accessibility-impact gating.
+
 ## GitHub Actions (Recommended)
 
 ### Using the Official GitHub Action
@@ -51,7 +60,7 @@ jobs:
 | `timeout` | no | `120000` | Timeout in ms |
 | `threshold` | no | - | Overall score threshold |
 | `thresholds` | no | - | Per-category YAML: `usability: 70, accessibility: 80` |
-| `fail-on-critical` | no | `true` | Fail on critical issues |
+| `fail-on-critical` | no | `true` | Fail on accessibility findings with `critical` impact |
 | `fail-on-regression` | no | `false` | Fail on score regression |
 | `comment-on-pr` | no | `true` | Post PR comment |
 | `update-baseline` | no | `false` | Update baseline file |
@@ -67,7 +76,7 @@ jobs:
 | `clarity-score` | Clarity score |
 | `accessibility-score` | Accessibility score |
 | `issues-count` | Total issues found |
-| `critical-count` | Critical issues |
+| `critical-count` | Accessibility findings with `critical` impact |
 | `report-url` | Full report URL |
 | `job-id` | Audit job ID |
 | `result-json` | Full JSON result |
