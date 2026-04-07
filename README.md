@@ -2,7 +2,7 @@
 
 <img src="banner.svg" alt="VERTAAUX" width="800"/>
 
-**Agent skills for VertaaUX UX, accessibility, and conversion audits.**
+**Agent skills for VertaaUX accessibility, UX and conversion audits.**
 
 </div>
 
