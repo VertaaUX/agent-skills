@@ -62,10 +62,11 @@ vertaa a11y https://example.com --mode deep
 ## Repository Layout
 
 - `skills/vertaaux/SKILL.md` - Main skill instructions and routing guidance
+- `skills/vertaaux/references/audit-profiles.md` - Built-in audit profiles, custom profile schema, and profile selection guidance
 - `skills/vertaaux/references/cli-workflows.md` - Command reference and piping patterns
 - `skills/vertaaux/references/cicd-setup.md` - CI/CD and GitHub Actions examples
 - `skills/vertaaux/references/sdk-api.md` - SDK, API, webhook, and MCP details
-- `skills/vertaaux/references/use-cases.md` - Step-by-step workflow playbooks
+- `skills/vertaaux/references/use-cases.md` - Task recipes and step-by-step workflow playbooks
 
 ## Compatibility
 

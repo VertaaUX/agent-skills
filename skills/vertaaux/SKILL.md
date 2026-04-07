@@ -1,10 +1,10 @@
 ---
 name: vertaaux
-description: Run and operationalize VertaaUX UX, accessibility, and conversion audits across CLI, CI/CD, SDK, API, and MCP. Use when the user needs to audit a URL, investigate WCAG issues, set quality gates, compare audit runs, or generate remediation plans from VertaaUX results.
+description: Run and operationalize VertaaUX UX, accessibility, and conversion audits across CLI, CI/CD, SDK, API, and MCP. Use when the user needs to audit a URL, investigate WCAG issues, set quality gates, compare audit runs, select an audit profile, or generate remediation plans from VertaaUX results.
 license: MIT
 metadata:
   author: vertaaux
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # VertaaUX
@@ -19,13 +19,14 @@ Use VertaaUX to audit live experiences, explain findings, and turn results into 
 - Compare audit runs, baselines, or regressions
 - Generate triage, fix plans, or patch reviews from audit output
 - Integrate VertaaUX through the SDK, API, or MCP server
+- Pick the right audit profile for the task at hand
 
 ## Fast Path
 
 | Goal | Surface | Command |
 |------|---------|---------|
-| Full audit | CLI | `vertaa audit <url> --wait` |
-| Accessibility scan | CLI | `vertaa a11y <url> --mode deep` |
+| Full audit | CLI | `vertaa audit <url> --profile quick-ux --wait` |
+| Accessibility scan | CLI | `vertaa a11y <url> --mode deep --profile wcag-aa` |
 | PR or CI gate | GitHub Action / CI | See [CI/CD setup](references/cicd-setup.md) |
 | Programmatic workflow | JS or Python SDK | See [SDK & API](references/sdk-api.md) |
 | Agent integration | MCP Server | See [SDK & API](references/sdk-api.md#mcp-server) |
@@ -42,6 +43,22 @@ cat audit.json | vertaa explain
 cat audit.json | vertaa triage
 ```
 
+## Audit Profiles
+
+Profiles bundle category selection, weight overrides, score thresholds, and mode into a single `--profile` flag. Prefer profiles over ad-hoc flag combinations — they are reusable, documented, and consistent across surfaces.
+
+| Profile | Use for | Mode |
+|---------|---------|------|
+| `wcag-aa` | WCAG 2.2 AA compliance, accessibility-focused deep scan | deep |
+| `conversion-focus` | CTA, funnel, UX friction (Pro tier) | standard |
+| `quick-ux` | Fast dev-time sanity check across all categories | basic |
+| `ci-gate` | PR quality gate with strict thresholds | standard |
+| `compliance` | Regulated industries (healthcare, finance, government) | deep |
+
+Precedence: CLI flag > config file > profile > default. So `--profile ci-gate --threshold 95` still uses 95 as the overall threshold.
+
+Custom profiles can be defined in `.vertaaux.yml` under a `profiles:` key. See [Audit Profiles](references/audit-profiles.md) for the full schema, a profile selection decision tree, and a current limitation: profile category filtering currently applies to scoring and quality gate evaluation, but does not yet skip auditors at the worker level.
+
 ## Recommended Workflow
 
 1. Pick the lightest surface that fits the task.
@@ -49,10 +66,12 @@ cat audit.json | vertaa triage
 2. Authenticate before deeper work.
    Use `vertaa login` or set `VERTAAUX_API_KEY` before running commands that need cloud access.
 3. Run the smallest audit that answers the question.
-   Start with `vertaa audit <url> --wait` for broad UX checks or `vertaa a11y <url> --mode deep` for accessibility-specific work.
+   Pick a profile that matches the goal: `wcag-aa` for accessibility, `quick-ux` for general dev-time checks, `ci-gate` for PR gates, `conversion-focus` for funnel work, `compliance` for regulated audits. Default to `quick-ux` if no other profile fits.
 4. Convert results into action.
    Pipe results into `vertaa explain`, `vertaa triage`, `vertaa fix-plan`, `vertaa compare`, or `vertaa patch-review` depending on whether the user needs diagnosis, prioritization, or remediation.
-5. Load deeper references only when the task actually needs them.
+5. Verify before claiming completion.
+   See "Verification — Closing the Loop" below. Re-run the audit after any fix.
+6. Load deeper references only when the task actually needs them.
    Use the matching reference below instead of inlining every edge case into the main skill.
 
 ## Audit Model
@@ -95,11 +114,32 @@ Comparison notes:
 - Use `vertaa compare --before <file> --after <file>` for saved audit outputs.
 - Use `vertaa compare <url-a> <url-b>` when comparing live URLs directly.
 
+## Verification — Closing the Loop
+
+After applying any fix, always re-verify objective outcomes before claiming the issue is resolved.
+
+**Auto-verify (close the loop):** WCAG contrast, missing alt text, broken links, schema markup presence, threshold gates. Re-run the same audit on the same URL and confirm the specific finding's `id` no longer appears in `issues[]`.
+
+**Human-verify (leave open):** CTA wording, brand voice, visual hierarchy, conversion copy. Surface to the user — do not auto-resolve.
+
+**Hard rule:** After `vertaa fix` or `vertaa fix-all`, the next action is always re-running the same audit. No exceptions.
+
+## Drift Prevention
+
+Prevent fabrication and stale guidance. Apply before answering, not after.
+
+1. **Never invent flags or commands.** If unsure whether `vertaa <command> --some-flag` exists, read [CLI Workflows](references/cli-workflows.md) before suggesting it.
+2. **Never invent API parameters.** Read [SDK & API](references/sdk-api.md) first.
+3. **Always pipe in machine format.** Use `--format json` or `--machine` when chaining commands. Never parse human-readable output — it changes between releases.
+4. **Prefer skill references over general knowledge.** WCAG and UX heuristics vary by source. The references are aligned with what the runtime checks.
+5. **Profile names are fixed.** Built-in: `wcag-aa`, `conversion-focus`, `quick-ux`, `ci-gate`, `compliance`. Any other name must come from the user's `.vertaaux.yml`.
+
 ## References
 
 Load only the reference that matches the active task:
 
+- [Audit Profiles](references/audit-profiles.md) for built-in profile definitions, custom profile schema, decision tree, and current limitations
 - [CLI Workflows](references/cli-workflows.md) for command syntax, formats, piping, and advanced options
 - [CI/CD Setup](references/cicd-setup.md) for GitHub Actions, baselines, thresholds, and regression gates
 - [SDK & API](references/sdk-api.md) for JS/Python SDK usage, REST API calls, webhooks, and MCP setup
-- [Use Case Playbooks](references/use-cases.md) for step-by-step workflows such as accessibility audits, monitoring, competitive analysis, and remediation
+- [Use Case Playbooks](references/use-cases.md) for task recipes (deterministic step sequences) and step-by-step workflows such as accessibility audits, monitoring, competitive analysis, and remediation
