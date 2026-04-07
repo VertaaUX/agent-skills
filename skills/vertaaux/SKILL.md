@@ -143,3 +143,4 @@ Load only the reference that matches the active task:
 - [CI/CD Setup](references/cicd-setup.md) for GitHub Actions, baselines, thresholds, and regression gates
 - [SDK & API](references/sdk-api.md) for JS/Python SDK usage, REST API calls, webhooks, and MCP setup
 - [Use Case Playbooks](references/use-cases.md) for task recipes (deterministic step sequences) and step-by-step workflows such as accessibility audits, monitoring, competitive analysis, and remediation
+- [Skill Composition Contracts](references/skill-contracts.md) for the VertaaUX-team convention on inputs/outputs/composes handoffs between this skill and `a11y-review`, `create-analyzer`, and `architecture-review`
