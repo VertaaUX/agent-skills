@@ -1,0 +1,83 @@
+<svg width="960" height="244" viewBox="0 0 960 244" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Compatibility hosts for VertaaUX agent skills</title>
+  <desc id="desc">A grid of eight monochrome host cards showing Codex, Claude Code, Cursor, GitHub Copilot, Gemini CLI, Windsurf, Cline, and Roo.</desc>
+  <style>
+    .card { fill: #0f1720; stroke: #263448; stroke-width: 2; }
+    .icon { fill: none; stroke: #2fe7e0; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .label { fill: #f3f6fb; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 20px; font-weight: 600; }
+    .eyebrow { fill: #93a1b5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+  </style>
+
+  <g transform="translate(24 24)">
+    <text class="eyebrow" x="0" y="12">Common Hosts</text>
+
+    <g transform="translate(0 30)">
+      <rect class="card" x="0" y="0" rx="16" ry="16" width="210" height="70"/>
+      <rect class="card" x="228" y="0" rx="16" ry="16" width="210" height="70"/>
+      <rect class="card" x="456" y="0" rx="16" ry="16" width="210" height="70"/>
+      <rect class="card" x="684" y="0" rx="16" ry="16" width="210" height="70"/>
+
+      <rect class="card" x="0" y="88" rx="16" ry="16" width="210" height="70"/>
+      <rect class="card" x="228" y="88" rx="16" ry="16" width="210" height="70"/>
+      <rect class="card" x="456" y="88" rx="16" ry="16" width="210" height="70"/>
+      <rect class="card" x="684" y="88" rx="16" ry="16" width="210" height="70"/>
+
+      <g transform="translate(18 18)">
+        <path class="icon" d="M7 0h26a7 7 0 0 1 7 7v22a7 7 0 0 1-7 7H7a7 7 0 0 1-7-7V7a7 7 0 0 1 7-7Z"/>
+        <path class="icon" d="m9 11 6 6-6 6"/>
+        <path class="icon" d="M19 23h10"/>
+        <text class="label" x="56" y="23">Codex</text>
+      </g>
+
+      <g transform="translate(246 18)">
+        <path class="icon" d="M9 0h22l9 9v20a7 7 0 0 1-7 7H9a7 7 0 0 1-7-7V7a7 7 0 0 1 7-7Z"/>
+        <path class="icon" d="M19 10c-4.5 0-8 3.5-8 8 0 4.3 3.2 7.7 7.4 7.9"/>
+        <path class="icon" d="M22 10c4.5 0 8 3.5 8 8 0 4.3-3.2 7.7-7.4 7.9"/>
+        <text class="label" x="56" y="23">Claude Code</text>
+      </g>
+
+      <g transform="translate(474 18)">
+        <path class="icon" d="M7 4h26a7 7 0 0 1 7 7v14a7 7 0 0 1-7 7H7a7 7 0 0 1-7-7V11a7 7 0 0 1 7-7Z"/>
+        <path class="icon" d="M15 0v8"/>
+        <path class="icon" d="M25 0v8"/>
+        <path class="icon" d="M10 17h20"/>
+        <text class="label" x="56" y="23">Cursor</text>
+      </g>
+
+      <g transform="translate(702 18)">
+        <path class="icon" d="M20 1 4 10v12l16 9 16-9V10L20 1Z"/>
+        <path class="icon" d="m20 1 0 30"/>
+        <path class="icon" d="M4 10 20 19l16-9"/>
+        <text class="label" x="56" y="23">GitHub Copilot</text>
+      </g>
+
+      <g transform="translate(18 106)">
+        <path class="icon" d="M20 1c5 6 10.5 8.8 16 10.5-5.5 1.7-11 4.5-16 10.5-5-6-10.5-8.8-16-10.5C9.5 9.8 15 7 20 1Z"/>
+        <path class="icon" d="M20 12v20"/>
+        <text class="label" x="56" y="23">Gemini CLI</text>
+      </g>
+
+      <g transform="translate(246 106)">
+        <path class="icon" d="M5 30 20 4l15 26"/>
+        <path class="icon" d="M12 19h16"/>
+        <path class="icon" d="M16 26h8"/>
+        <text class="label" x="56" y="23">Windsurf</text>
+      </g>
+
+      <g transform="translate(474 106)">
+        <path class="icon" d="M5 6h30a5 5 0 0 1 5 5v14a5 5 0 0 1-5 5H17l-8 6v-6H5a5 5 0 0 1-5-5V11a5 5 0 0 1 5-5Z"/>
+        <path class="icon" d="M11 16h18"/>
+        <path class="icon" d="M11 22h10"/>
+        <text class="label" x="56" y="23">Cline</text>
+      </g>
+
+      <g transform="translate(702 106)">
+        <path class="icon" d="M20 2a13 13 0 1 1 0 26 13 13 0 0 1 0-26Z"/>
+        <path class="icon" d="M13 16c3-4 11-4 14 0"/>
+        <path class="icon" d="M15 12h.01"/>
+        <path class="icon" d="M25 12h.01"/>
+        <text class="label" x="56" y="23">Roo</text>
+      </g>
+    </g>
+  </g>
+</svg>

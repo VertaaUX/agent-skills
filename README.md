@@ -97,14 +97,7 @@ This repository is designed for tools that support the Agent Skills format.
 
 Common hosts include:
 
-- Codex
-- Claude Code
-- Cursor
-- GitHub Copilot
-- Gemini CLI
-- Windsurf
-- Cline
-- Roo
+![Compatibility hosts](assets/compatibility-hosts.svg)
 
 If your environment can install Agent Skills from GitHub, this repository should fit directly into that workflow.
 
