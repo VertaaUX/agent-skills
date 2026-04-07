@@ -11,7 +11,7 @@ ET.register_namespace("", SVG_NS)
 
 LOGOS = [
     "codex-text.svg",
-    "claudecode-text.svg",
+    "claude-text.svg",
     "cursor-text.svg",
     "githubcopilot-text.svg",
     "geminicli-text.svg",

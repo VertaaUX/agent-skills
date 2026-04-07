@@ -9,7 +9,7 @@ The compatibility logos in this directory were sourced from the same npm package
 Imported assets:
 
 - `codex-text.svg`
-- `claudecode-text.svg`
+- `claude-text.svg`
 - `cursor-text.svg`
 - `githubcopilot-text.svg`
 - `geminicli-text.svg`
