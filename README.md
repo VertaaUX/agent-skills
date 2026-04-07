@@ -44,11 +44,13 @@ Use it when the user needs to:
 
 ## What It Covers
 
-- CLI workflows for one-off audits and AI follow-up commands
-- CI/CD setup for score thresholds, baselines, and regression detection
-- SDK and API integration for automated workflows
-- MCP server guidance for agent-driven integrations
-- Use-case playbooks for accessibility, monitoring, remediation, and competitive review
+- **Audit profiles** — built-in and custom profile definitions, selection decision tree, and category filtering
+- **Task recipes** — deterministic step sequences for accessibility audits, monitoring, remediation, and competitive review
+- **Verification & drift control** — guardrails that prevent the agent from inventing flags, parameters, or commands the CLI/API doesn't actually expose
+- **Skill composition contracts** — explicit input/output/handoff conventions so `vertaaux` can chain into `a11y-review`, `create-analyzer`, and `architecture-review` without guesswork
+- **CLI workflows** for one-off audits and AI follow-up commands
+- **CI/CD setup** for score thresholds, baselines, and regression detection
+- **SDK, API, and MCP** integration for automated workflows and agent-driven tooling
 
 ## Quick Start
 
@@ -67,6 +69,7 @@ vertaa a11y https://example.com --mode deep
 - `skills/vertaaux/references/cicd-setup.md` - CI/CD and GitHub Actions examples
 - `skills/vertaaux/references/sdk-api.md` - SDK, API, webhook, and MCP details
 - `skills/vertaaux/references/use-cases.md` - Task recipes and step-by-step workflow playbooks
+- `skills/vertaaux/references/skill-contracts.md` - Skill composition contracts for chaining `vertaaux` with `a11y-review`, `create-analyzer`, and `architecture-review`
 
 ## Compatibility
 
