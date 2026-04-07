@@ -98,20 +98,8 @@ This repository is designed for tools that support the Agent Skills format.
 
 Common hosts include:
 
-<table>
-  <tr>
-    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/codex-text.svg" alt="Codex" height="34"></td>
-    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/claudecode-text.svg" alt="Claude Code" height="34"></td>
-    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/cursor-text.svg" alt="Cursor" height="34"></td>
-    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/githubcopilot-text.svg" alt="GitHub Copilot" height="34"></td>
-  </tr>
-  <tr>
-    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/geminicli-text.svg" alt="Gemini CLI" height="34"></td>
-    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/windsurf-text.svg" alt="Windsurf" height="34"></td>
-    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/cline-text.svg" alt="Cline" height="34"></td>
-    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/roocode-text.svg" alt="Roo Code" height="34"></td>
-  </tr>
-</table>
+<img src="assets/compatibility/compatibility-grid-light.svg#gh-light-mode-only" alt="Compatibility hosts" width="100%" />
+<img src="assets/compatibility/compatibility-grid-dark.svg#gh-dark-mode-only" alt="Compatibility hosts" width="100%" />
 
 Logos are sourced from a single upstream package and vendored locally. See [assets/compatibility/SOURCES.md](assets/compatibility/SOURCES.md).
 
