@@ -1,6 +1,7 @@
 <div align="center">
 
-<img src="banner.svg" alt="VERTAAUX" width="800" />
+<img src="banner-light.svg#gh-light-mode-only" alt="VERTAAUX" width="800" />
+<img src="banner-dark.svg#gh-dark-mode-only" alt="VERTAAUX" width="800" />
 
 [![Release](https://img.shields.io/github/v/release/VertaaUX/agent-skills?display_name=tag)](https://github.com/VertaaUX/agent-skills/releases)
 [![Repo Checks](https://img.shields.io/github/actions/workflow/status/VertaaUX/agent-skills/repo-hygiene.yml?branch=main&label=repo%20checks)](https://github.com/VertaaUX/agent-skills/actions/workflows/repo-hygiene.yml)
@@ -97,14 +98,22 @@ This repository is designed for tools that support the Agent Skills format.
 
 Common hosts include:
 
-- Codex
-- Claude Code
-- Cursor
-- GitHub Copilot
-- Gemini CLI
-- Windsurf
-- Cline
-- Roo
+<table>
+  <tr>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/codex-text.svg" alt="Codex" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/claudecode-text.svg" alt="Claude Code" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/cursor-text.svg" alt="Cursor" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/githubcopilot-text.svg" alt="GitHub Copilot" height="34"></td>
+  </tr>
+  <tr>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/geminicli-text.svg" alt="Gemini CLI" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/windsurf-text.svg" alt="Windsurf" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/cline-text.svg" alt="Cline" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/roocode-text.svg" alt="Roo Code" height="34"></td>
+  </tr>
+</table>
+
+Logos are sourced from a single upstream package and vendored locally. See [assets/compatibility/SOURCES.md](assets/compatibility/SOURCES.md).
 
 If your environment can install Agent Skills from GitHub, this repository should fit directly into that workflow.
 
