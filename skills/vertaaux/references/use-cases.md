@@ -1,9 +1,21 @@
 # Use Case Playbooks
 
-Step-by-step guides for common VertaaUX workflows. Each playbook is self-contained.
+Two layers of guidance:
+
+1. **Task Recipes** (below) — deterministic step sequences with explicit verification. Use these when executing.
+2. **Detailed Playbooks** (further down) — extended prose with options, alternatives, and context. Use these when researching.
 
 ## Table of Contents
 
+**Task Recipes (deterministic):**
+- [Recipe: WCAG Compliance Audit](#recipe-wcag-compliance-audit)
+- [Recipe: PR Quality Gate](#recipe-pr-quality-gate)
+- [Recipe: Conversion Optimization](#recipe-conversion-optimization)
+- [Recipe: Remediation Loop](#recipe-remediation-loop)
+- [Recipe: Competitive Comparison](#recipe-competitive-comparison)
+- [Recipe: Multi-Page Site Audit](#recipe-multi-page-site-audit)
+
+**Detailed Playbooks (extended reference):**
 - [Accessibility Audit](#accessibility-audit)
 - [Full UX Audit](#full-ux-audit)
 - [Conversion Audit](#conversion-audit)
@@ -14,6 +26,234 @@ Step-by-step guides for common VertaaUX workflows. Each playbook is self-contain
 - [AI Agent Integration](#ai-agent-integration)
 - [Multi-Page Site Audit](#multi-page-site-audit)
 - [WCAG Compliance Report](#wcag-compliance-report)
+
+---
+
+# Task Recipes
+
+Each recipe is a deterministic sequence with explicit triggers, exact commands, and verification steps. Follow them top-to-bottom — do not improvise unless the user explicitly diverges.
+
+## Recipe: WCAG Compliance Audit
+
+**Trigger phrases:** "WCAG audit", "accessibility compliance", "a11y deep scan", "WCAG report", "is my site WCAG compliant"
+
+**Profile:** `wcag-aa`
+
+**Steps:**
+
+```bash
+# 1. Run deep a11y audit with the wcag-aa profile
+vertaa a11y <url> --mode deep --profile wcag-aa --format json > a11y.json
+
+# 2. Triage findings
+cat a11y.json | vertaa triage --verbose
+
+# 3. Generate fix plan
+cat a11y.json | vertaa fix-plan --json
+```
+
+**Verification (objective, auto-close):**
+- Check: `accessibility` score in `a11y.json` is ≥ 85 (the profile's threshold)
+- Check: zero accessibility findings with `impact: "critical"` (a11y impact level, not the general `severity` field)
+- Check: `skipped` field shows only the categories the profile excludes (`usability`, `clarity`, `conversion`, `ia`)
+
+**If fixes are applied:**
+- Re-run step 1 with the same URL
+- Confirm finding count decreased
+- Confirm previously failing `wcagCriteria` no longer in `issues[]`
+
+**Handoff to user (subjective):**
+- Summary of remaining findings grouped by WCAG criterion
+- Priority order from triage
+- Estimated remediation effort per finding from `fix-plan`
+
+---
+
+## Recipe: PR Quality Gate
+
+**Trigger phrases:** "PR gate", "block bad PRs", "CI quality check", "GitHub Actions UX audit", "fail the build on regressions"
+
+**Profile:** `ci-gate`
+
+**Steps:**
+
+1. Add the GitHub Action workflow:
+
+```yaml
+name: UX Quality Gate
+on: [pull_request]
+jobs:
+  ux-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: vertaaux/action@v1
+        with:
+          url: ${{ env.PREVIEW_URL }}
+          api-key: ${{ secrets.VERTAAUX_API_KEY }}
+          profile: ci-gate
+          comment-on-pr: true
+          baseline-file: .vertaaux/baseline.json
+```
+
+2. Set `VERTAAUX_API_KEY` as a repo secret.
+3. Ensure `PREVIEW_URL` env var resolves to a deployed preview (Vercel, Netlify, etc.).
+
+**Verification (objective, auto-close):**
+- Check: workflow file is valid YAML (`yamllint .github/workflows/ux-gate.yml`)
+- Check: secret exists (`gh secret list | grep VERTAAUX_API_KEY`)
+- After first PR run: confirm exit code matches expected (0 = pass, 1 = blocked)
+
+**If exit code is unexpected:**
+- Read action logs
+- Check `.vertaaux.yml` for conflicting thresholds (CLI flag > config > profile)
+- Re-run with `--verbose` for diagnosis
+
+**Handoff to user (subjective):**
+- Whether the threshold (overall: 80) is right for this team
+- Whether to extend the bypass labels list
+
+---
+
+## Recipe: Conversion Optimization
+
+**Trigger phrases:** "improve conversion", "CTA audit", "funnel friction", "conversion-focused audit", "why isn't this page converting"
+
+**Profile:** `conversion-focus` (Pro tier required)
+
+**Steps:**
+
+```bash
+# 1. Run conversion-focused audit
+vertaa audit <url> --profile conversion-focus --wait --format json > conv.json
+
+# 2. Filter to conversion findings
+cat conv.json | jq '.issues[] | select(.category == "conversion")'
+
+# 3. AI explanation of issues
+cat conv.json | vertaa explain --verbose
+
+# 4. Generate prioritized action plan
+cat conv.json | vertaa fix-plan --json
+```
+
+**Verification (objective, auto-close):**
+- Check: `conversion` score in `conv.json` is present (not null — confirms Pro tier active)
+- Check: `conversion` score is ≥ 75 if no `severity: "error"` findings, otherwise note delta
+- Check: `skipped` field excludes `accessibility`, `keyboard`, `semantic`, `ia`
+
+**Handoff to user (subjective — these are NEVER auto-resolved):**
+- CTA wording suggestions (brand voice judgment)
+- Trust signal placement (design opinion)
+- Funnel restructure proposals (require business context)
+- Copy A/B test ideas (need experiment infrastructure)
+
+---
+
+## Recipe: Remediation Loop
+
+**Trigger phrases:** "fix issues from audit", "apply fixes", "remediate findings", "fix-all then verify"
+
+**Profile:** Inherit from existing audit (no profile override)
+
+**Steps:**
+
+```bash
+# 1. Generate fix plan
+cat audit.json | vertaa fix-plan --json > plan.json
+
+# 2. Apply fixes
+vertaa fix-all <job-id>
+
+# 3. MANDATORY: re-run the same audit
+vertaa audit <same-url> --profile <same-profile-as-original> --format json > audit-after.json
+
+# 4. Compare before/after
+vertaa compare --before audit.json --after audit-after.json
+```
+
+**Verification (objective, auto-close — NEVER skip step 3):**
+- Check: `audit-after.json` has fewer total `issues[]` than original
+- Check: specific `id`s from `plan.json` are absent from `audit-after.json.issues`
+- Check: overall score in `audit-after.json` ≥ original
+- If any `mechanical` fix did NOT close: investigate (likely the fix needs human review)
+
+**Handoff to user (subjective):**
+- Findings classified as `contextual` or `visual` — these need human judgment
+- Any `mechanical` fixes that failed verification
+
+---
+
+## Recipe: Competitive Comparison
+
+**Trigger phrases:** "compare to competitor", "how does my site compare", "competitive analysis", "benchmark against X"
+
+**Profile:** `quick-ux` (both sites need same profile for fair comparison)
+
+**Steps:**
+
+```bash
+# 1. Audit your site
+vertaa audit <your-url> --profile quick-ux --wait --format json > ours.json
+
+# 2. Audit competitor with identical profile
+vertaa audit <competitor-url> --profile quick-ux --wait --format json > theirs.json
+
+# 3. Generate comparison narrative
+vertaa compare --before ours.json --after theirs.json
+```
+
+**Verification (objective, auto-close):**
+- Check: both audits used the same profile (`quick-ux`)
+- Check: both audits completed with same `mode` (basic)
+- Check: `skipped` fields match between the two — if not, the comparison is invalid
+
+**Handoff to user (subjective — comparison interpretation is ALWAYS user judgment):**
+- Strategic implications of score deltas (depends on goals)
+- Whether competitor patterns are worth copying (brand fit)
+- Which gaps matter for differentiation
+- Note: VertaaUX measures UX quality, not market fit or pricing strategy
+
+---
+
+## Recipe: Multi-Page Site Audit
+
+**Trigger phrases:** "audit my whole site", "multi-page audit", "audit all my routes", "site-wide UX scan"
+
+**Profile:** Choose based on goal — `quick-ux` for breadth, `wcag-aa` for compliance
+
+**Steps:**
+
+```bash
+# Use the built-in --routes flag (preferred over a bash loop)
+vertaa audit https://example.com \
+  --routes /,/pricing,/features,/signup,/docs \
+  --profile <profile> \
+  --wait \
+  --format json > multi.json
+
+# Group findings by route
+cat multi.json | jq '.routes[] | { route: .url, score: .scores.overall, issues: (.issues | length) }'
+```
+
+**Verification (objective, auto-close):**
+- Check: `multi.json` contains `routes[]` array with all requested URLs
+- Check: each route has a `scores` object (not null)
+- Check: no route in `routes[]` has `status: "failed"`
+
+**If any route failed:**
+- Check `failure_reason` in that route's metadata
+- Re-run JUST that route to isolate the issue
+
+**Handoff to user (subjective):**
+- Which routes need attention first (depends on traffic, business priority)
+- Whether to set up site monitoring (offer the Site Monitoring playbook below)
+
+---
+
+# Detailed Playbooks
+
+The sections below are extended prose reference for each workflow. Use them when you need options, alternatives, or background — not when you need to execute a deterministic sequence (use the recipes above for that).
 
 ---
 
