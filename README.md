@@ -1,10 +1,7 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="banner-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="banner-light.svg">
-  <img src="banner-dark.svg" alt="VERTAAUX" width="800" />
-</picture>
+<img src="banner-light.svg#gh-light-mode-only" alt="VERTAAUX" width="800" />
+<img src="banner-dark.svg#gh-dark-mode-only" alt="VERTAAUX" width="800" />
 
 [![Release](https://img.shields.io/github/v/release/VertaaUX/agent-skills?display_name=tag)](https://github.com/VertaaUX/agent-skills/releases)
 [![Repo Checks](https://img.shields.io/github/actions/workflow/status/VertaaUX/agent-skills/repo-hygiene.yml?branch=main&label=repo%20checks)](https://github.com/VertaaUX/agent-skills/actions/workflows/repo-hygiene.yml)
