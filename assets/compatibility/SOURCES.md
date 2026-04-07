@@ -15,6 +15,12 @@ Imported assets:
 - `geminicli-text.svg`
 - `windsurf-text.svg`
 - `cline-text.svg`
-- `roocode-text.svg`
+
+Generated theme assets from those source SVGs:
+
+- `compatibility-board-light.svg`
+- `compatibility-board-light.png`
+- `compatibility-board-dark.svg`
+- `compatibility-board-dark.png`
 
 These files are vendored locally so the README does not depend on external hotlinks.
