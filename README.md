@@ -97,7 +97,14 @@ This repository is designed for tools that support the Agent Skills format.
 
 Common hosts include:
 
-![Compatibility hosts](assets/compatibility-hosts.svg)
+![Codex](https://img.shields.io/badge/Codex-0f172a?style=flat-square)
+![Claude Code](https://img.shields.io/badge/Claude%20Code-0f172a?style=flat-square)
+![Cursor](https://img.shields.io/badge/Cursor-0f172a?style=flat-square)
+![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-0f172a?style=flat-square)
+![Gemini CLI](https://img.shields.io/badge/Gemini%20CLI-0f172a?style=flat-square)
+![Windsurf](https://img.shields.io/badge/Windsurf-0f172a?style=flat-square)
+![Cline](https://img.shields.io/badge/Cline-0f172a?style=flat-square)
+![Roo](https://img.shields.io/badge/Roo-0f172a?style=flat-square)
 
 If your environment can install Agent Skills from GitHub, this repository should fit directly into that workflow.
 
