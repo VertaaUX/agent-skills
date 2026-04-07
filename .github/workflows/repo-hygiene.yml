@@ -1,0 +1,89 @@
+name: Repo Hygiene
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate repository structure and Markdown links
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          root = Path(".")
+          required = [
+              root / "README.md",
+              root / "LICENSE",
+              root / "skills/vertaaux/SKILL.md",
+              root / "skills/vertaaux/references/audit-profiles.md",
+              root / "skills/vertaaux/references/cli-workflows.md",
+              root / "skills/vertaaux/references/cicd-setup.md",
+              root / "skills/vertaaux/references/sdk-api.md",
+              root / "skills/vertaaux/references/use-cases.md",
+              root / "skills/vertaaux/references/skill-contracts.md",
+          ]
+
+          missing = [str(path) for path in required if not path.exists()]
+          if missing:
+              print("Missing required files:")
+              print("\n".join(missing))
+              sys.exit(1)
+
+          markdown_files = [
+              root / "README.md",
+              root / "CONTRIBUTING.md",
+              root / "SECURITY.md",
+              root / "skills/vertaaux/SKILL.md",
+              *sorted((root / "skills/vertaaux/references").glob("*.md")),
+          ]
+
+          pattern = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+          errors = []
+
+          for file in markdown_files:
+              text = file.read_text(encoding="utf-8")
+              for target in pattern.findall(text):
+                  if target.startswith(("http://", "https://", "mailto:", "#")):
+                      continue
+                  path = target.split("#", 1)[0]
+                  resolved = (file.parent / path).resolve()
+                  if not resolved.exists():
+                      errors.append(f"{file}: missing link target {target}")
+
+          if errors:
+              print("Broken relative Markdown links:")
+              print("\n".join(errors))
+              sys.exit(1)
+
+          skill = (root / "skills/vertaaux/SKILL.md").read_text(encoding="utf-8")
+          if "name: vertaaux" not in skill or "version:" not in skill:
+              print("SKILL.md is missing expected front matter fields.")
+              sys.exit(1)
+
+          readme = (root / "README.md").read_text(encoding="utf-8")
+          expected_markers = [
+              "Repo Checks",
+              "## Quick Start",
+              "## What This Repo Gives You",
+              "## Repository Layout",
+              "## Compatibility",
+          ]
+          missing_markers = [marker for marker in expected_markers if marker not in readme]
+          if missing_markers:
+              print("README.md is missing expected sections:")
+              print("\n".join(missing_markers))
+              sys.exit(1)
+
+          print("Repository hygiene checks passed.")
+          PY
