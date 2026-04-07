@@ -11,7 +11,7 @@ ET.register_namespace("", SVG_NS)
 
 LOGOS = [
     "codex-text.svg",
-    "claude-text.svg",
+    ("anthropic.svg", "claude-text.svg"),
     "cursor-text.svg",
     "githubcopilot-text.svg",
     "geminicli-text.svg",
@@ -61,29 +61,65 @@ def build_svg(output_svg: Path, output_png: Path, color: str) -> None:
     ET.SubElement(svg, f"{{{SVG_NS}}}title", {"id": "title"}).text = "Compatibility hosts"
     ET.SubElement(svg, f"{{{SVG_NS}}}desc", {"id": "desc"}).text = "Large compatibility wordmarks for supported coding hosts."
 
-    for (x, y), file_name in zip(positions, LOGOS):
-        source = ET.parse(ASSETS / file_name).getroot()
-        min_x, min_y, view_w, view_h = parse_view_box(source.attrib["viewBox"])
+    for (x, y), entry in zip(positions, LOGOS):
+        if isinstance(entry, tuple):
+            icon_name, text_name = entry
+            icon = ET.parse(ASSETS / icon_name).getroot()
+            text = ET.parse(ASSETS / text_name).getroot()
 
-        scale = min(cell_width / view_w, cell_height / view_h)
-        tx = x + (cell_width - view_w * scale) / 2 - min_x * scale
-        ty = y + (cell_height - view_h * scale) / 2 - min_y * scale
+            _, _, icon_w, icon_h = parse_view_box(icon.attrib["viewBox"])
+            _, _, text_w, text_h = parse_view_box(text.attrib["viewBox"])
 
-        wrapper = ET.SubElement(
-            svg,
-            f"{{{SVG_NS}}}g",
-            {
-                "transform": f"translate({tx:.3f} {ty:.3f}) scale({scale:.6f})",
-                "color": color,
-                "fill": color,
-                "stroke": color,
-            },
-        )
+            target_h = cell_height * 0.86
+            icon_scale = target_h / icon_h
+            text_scale = target_h / text_h
+            gap_inner = 24
+            total_w = icon_w * icon_scale + gap_inner + text_w * text_scale
+            start_x = x + (cell_width - total_w) / 2
+            start_y = y + (cell_height - target_h) / 2
 
-        for child in list(source):
-            if child.tag in {f"{{{SVG_NS}}}title", f"{{{SVG_NS}}}desc"}:
-                continue
-            wrapper.append(child)
+            for source, offset_x, scale in (
+                (icon, start_x, icon_scale),
+                (text, start_x + icon_w * icon_scale + gap_inner, text_scale),
+            ):
+                wrapper = ET.SubElement(
+                    svg,
+                    f"{{{SVG_NS}}}g",
+                    {
+                        "transform": f"translate({offset_x:.3f} {start_y:.3f}) scale({scale:.6f})",
+                        "color": color,
+                        "fill": color,
+                        "stroke": color,
+                    },
+                )
+                for child in list(source):
+                    if child.tag in {f"{{{SVG_NS}}}title", f"{{{SVG_NS}}}desc"}:
+                        continue
+                    wrapper.append(child)
+        else:
+            file_name = entry
+            source = ET.parse(ASSETS / file_name).getroot()
+            min_x, min_y, view_w, view_h = parse_view_box(source.attrib["viewBox"])
+
+            scale = min(cell_width / view_w, cell_height / view_h)
+            tx = x + (cell_width - view_w * scale) / 2 - min_x * scale
+            ty = y + (cell_height - view_h * scale) / 2 - min_y * scale
+
+            wrapper = ET.SubElement(
+                svg,
+                f"{{{SVG_NS}}}g",
+                {
+                    "transform": f"translate({tx:.3f} {ty:.3f}) scale({scale:.6f})",
+                    "color": color,
+                    "fill": color,
+                    "stroke": color,
+                },
+            )
+
+            for child in list(source):
+                if child.tag in {f"{{{SVG_NS}}}title", f"{{{SVG_NS}}}desc"}:
+                    continue
+                wrapper.append(child)
 
     ET.ElementTree(svg).write(output_svg, encoding="utf-8", xml_declaration=True)
 

@@ -101,8 +101,8 @@ This repository is designed for tools that support the Agent Skills format.
 
 Common hosts include:
 
-<img src="assets/compatibility/compatibility-board-light.png#gh-light-mode-only" alt="Compatibility hosts" width="100%" />
-<img src="assets/compatibility/compatibility-board-dark.png#gh-dark-mode-only" alt="Compatibility hosts" width="100%" />
+<img src="assets/compatibility/compatibility-board-light.svg#gh-light-mode-only" alt="Compatibility hosts" width="100%" />
+<img src="assets/compatibility/compatibility-board-dark.svg#gh-dark-mode-only" alt="Compatibility hosts" width="100%" />
 
 Logos are sourced from a single upstream package and vendored locally. See [assets/compatibility/SOURCES.md](assets/compatibility/SOURCES.md).
 
