@@ -97,14 +97,22 @@ This repository is designed for tools that support the Agent Skills format.
 
 Common hosts include:
 
-![Codex](https://img.shields.io/badge/Codex-0f172a?style=flat-square)
-![Claude Code](https://img.shields.io/badge/Claude%20Code-0f172a?style=flat-square)
-![Cursor](https://img.shields.io/badge/Cursor-0f172a?style=flat-square)
-![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-0f172a?style=flat-square)
-![Gemini CLI](https://img.shields.io/badge/Gemini%20CLI-0f172a?style=flat-square)
-![Windsurf](https://img.shields.io/badge/Windsurf-0f172a?style=flat-square)
-![Cline](https://img.shields.io/badge/Cline-0f172a?style=flat-square)
-![Roo](https://img.shields.io/badge/Roo-0f172a?style=flat-square)
+<table>
+  <tr>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/codex-text.svg" alt="Codex" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/claudecode-text.svg" alt="Claude Code" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/cursor-text.svg" alt="Cursor" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/githubcopilot-text.svg" alt="GitHub Copilot" height="34"></td>
+  </tr>
+  <tr>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/geminicli-text.svg" alt="Gemini CLI" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/windsurf-text.svg" alt="Windsurf" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/cline-text.svg" alt="Cline" height="34"></td>
+    <td align="center" bgcolor="#ffffff" width="25%"><img src="assets/compatibility/roocode-text.svg" alt="Roo Code" height="34"></td>
+  </tr>
+</table>
+
+Logos are sourced from a single upstream package and vendored locally. See [assets/compatibility/SOURCES.md](assets/compatibility/SOURCES.md).
 
 If your environment can install Agent Skills from GitHub, this repository should fit directly into that workflow.
 
