@@ -1,6 +1,6 @@
 # Compatibility Logo Sources
 
-The compatibility logos in this directory were sourced from the same internet package:
+The compatibility logos in this directory were sourced from the same npm package:
 
 - Package: `@lobehub/icons-static-svg`
 - Version: `1.84.0`
