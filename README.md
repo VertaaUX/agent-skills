@@ -64,6 +64,16 @@ Use it when the user needs to:
 - compare audit runs and explain score deltas
 - generate triage, fix plans, patch reviews, or team playbooks from audit output
 
+## What It Covers
+
+- **Audit profiles**: built-in and custom profile definitions, selection decision tree, and category filtering
+- **Task recipes**: deterministic step sequences for accessibility audits, monitoring, remediation, and competitive review
+- **Verification and drift control**: guardrails that prevent the agent from inventing flags, parameters, or commands the CLI/API doesn't actually expose
+- **Skill composition contracts**: explicit input/output/handoff conventions so `vertaaux` can chain into `a11y-review`, `create-analyzer`, and `architecture-review` without guesswork
+- **CLI workflows** for one-off audits and AI follow-up commands
+- **CI/CD setup** for score thresholds, baselines, and regression detection
+- **SDK, API, and MCP** integration for automated workflows and agent-driven tooling
+
 ## Typical Outcomes
 
 - **Fast audit selection** with documented profiles such as `quick-ux`, `wcag-aa`, and `ci-gate`
@@ -78,8 +88,8 @@ Use it when the user needs to:
 - `skills/vertaaux/references/cli-workflows.md` - Command reference and piping patterns
 - `skills/vertaaux/references/cicd-setup.md` - CI/CD and GitHub Actions examples
 - `skills/vertaaux/references/sdk-api.md` - SDK, API, webhook, and MCP details
-- `skills/vertaaux/references/use-cases.md` - Task recipes and workflow playbooks
-- `skills/vertaaux/references/skill-contracts.md` - Skill composition contracts for chaining `vertaaux` with adjacent skills
+- `skills/vertaaux/references/use-cases.md` - Task recipes and step-by-step workflow playbooks
+- `skills/vertaaux/references/skill-contracts.md` - Skill composition contracts for chaining `vertaaux` with `a11y-review`, `create-analyzer`, and `architecture-review`
 
 ## Compatibility
 
