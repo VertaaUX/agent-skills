@@ -1,7 +1,10 @@
 <div align="center">
 
-<img src="banner-light.svg#gh-light-mode-only" alt="VERTAAUX" width="800" />
-<img src="banner-dark.svg#gh-dark-mode-only" alt="VERTAAUX" width="800" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="banner-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="banner-light.svg" />
+  <img src="banner-light.svg" alt="VERTAAUX" width="800" />
+</picture>
 
 [![Release](https://img.shields.io/github/v/release/VertaaUX/agent-skills?display_name=tag)](https://github.com/VertaaUX/agent-skills/releases)
 [![Repo Checks](https://img.shields.io/github/actions/workflow/status/VertaaUX/agent-skills/repo-hygiene.yml?branch=main&label=repo%20checks)](https://github.com/VertaaUX/agent-skills/actions/workflows/repo-hygiene.yml)
@@ -98,8 +101,11 @@ This repository is designed for tools that support the Agent Skills format.
 
 Common hosts include:
 
-<img src="assets/compatibility/compatibility-grid-light.svg#gh-light-mode-only" alt="Compatibility hosts" width="100%" />
-<img src="assets/compatibility/compatibility-grid-dark.svg#gh-dark-mode-only" alt="Compatibility hosts" width="100%" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/compatibility/compatibility-grid-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="assets/compatibility/compatibility-grid-light.svg" />
+  <img src="assets/compatibility/compatibility-grid-light.svg" alt="Compatibility hosts" width="100%" />
+</picture>
 
 Logos are sourced from a single upstream package and vendored locally. See [assets/compatibility/SOURCES.md](assets/compatibility/SOURCES.md).
 
