@@ -104,8 +104,6 @@ Common hosts include:
 <img src="assets/compatibility/compatibility-board-light.svg#gh-light-mode-only" alt="Compatibility hosts" width="100%" />
 <img src="assets/compatibility/compatibility-board-dark.svg#gh-dark-mode-only" alt="Compatibility hosts" width="100%" />
 
-Logos are sourced from a single upstream package and vendored locally.
-
 If your environment can install Agent Skills from GitHub, this repository should fit directly into that workflow.
 
 ## Project Standards
